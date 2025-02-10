@@ -1,4 +1,4 @@
-# 02 ERC20 Faucet 
+# ERC20 Faucet 
 ## 项目介绍
 这是一个使用 `Nextjs15` 以及 `Foundry` 框架制作的ERC20代币水龙头领取网页
 
