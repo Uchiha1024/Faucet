@@ -1,66 +1,20 @@
-## Foundry
+# 本次教程中使用到的和合约交互的指令
+* 编译合约
+`forge compile`
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+* 测试合约
+`forge test`
 
-Foundry consists of:
+* 测试指定测试合约中过的函数
+`forge test --mt ${函数名称} -vvvvv `
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+* 函数选择器
+`forge selectors find`
 
-## Documentation
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+- 使用 makefile指令完成与合约的交互
+`make deploy_lulucoin`: 部署 JunCoin ERC20 代币合约
+`make deploy_faucet`: 部署水龙头代币合约
+`make mint`: 使用 `Owner` 账户进行 ERC20 代币的铸造
+`make approve_faucet`: 使用 `Owner` 账户对 `JUNFaucet` 合约进行授权
+`make deposit`: 使用 `Owner` 账户向水龙头合约中进行转账

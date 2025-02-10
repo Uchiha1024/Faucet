@@ -33,16 +33,18 @@ approve_faucet:
 	cast send ${JUN_CONTRACT} "approve(address,uint256)" ${FAUCET_CONTRACT} ${DEPOSIT_AMOUNT} --private-key ${OWNER_PRIVATE_KEY}
 # 使用 cast 发送交易调用 `approve` 函数，允许水龙头合约支出指定数量的代币
 
+deposit:
+	@echo "Depositing tokens to faucet..."
+# 输出存款信息，提示正在向水龙头存入代币
+	cast send ${FAUCET_CONTRACT} "deposit(uint256)" ${DEPOSIT_AMOUNT} --private-key ${OWNER_PRIVATE_KEY}
+	
 drip:
 	@echo "Dripping tokens from faucet..."
 # 输出领取信息，提示正在从水龙头领取代币
 	cast send ${FAUCET_CONTRACT} "drip(uint256)" ${DRIP_AMOUNT} --private-key ${USER_PRIVATE_KEY}
 # 使用 cast 发送交易调用 `drip` 函数，用户从水龙头领取指定数量的代币
 # 使用 cast 发送交易调用 `deposit` 函数，合约所有者向水龙头存入指定数量的代币
-deposit:
-	@echo "Depositing tokens to faucet..."
-# 输出存款信息，提示正在向水龙头存入代币
-	cast send ${FAUCET_CONTRACT} "deposit(uint256)" ${DEPOSIT_AMOUNT} --private-key ${OWNER_PRIVATE_KEY}
+
 
 # 使用 cast 调用 `balanceOf` 函数，查询水龙头合约的余额
 balance_of_faucet:

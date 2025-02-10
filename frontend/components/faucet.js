@@ -36,24 +36,26 @@ export default function Faucet() {
         if (window.ethereum) {
             const provider = new ethers.BrowserProvider(window.ethereum);
             const signer = await provider.getSigner();
-            const FaucetContract = new ethers.Contract(JUNFaucetAddress, JUNFaucetAbi.abi, signer);
+            const faucetContract = new ethers.Contract(JUNFaucetAddress, JUNFaucetAbi.abi, signer);
+            try {
+                const dripAmountInWei = ethers.parseUnits(
+                    dripAmount.toString(),
+                    "ether"
+                );
+                const response = await faucetContract.drip(BigInt(dripAmountInWei));
+                console.log("Drip response", response);
+                faucetContract.on("LLCFaucet__Drip", async () => {
+                    fetchBalance();
+                    fetchDripTime();
+                    setShowConnectionInfo(true);
+                })
+    
+            } catch (err) {
+                console.log(err);
+                setError(`发生错误：${err.message}`);
+            }
         }
-        try {
-            const dripAmountWei = ethers.parseUnits(
-                dripAmount.toString(),
-                "ether"
-            );
-            console.log("Drip response", response);
-            FaucetContract.on("LLCFaucet__Drip", async () => {
-                fetchBalance();
-                fetchDripTime();
-                setShowConnectionInfo(true);
-            })
 
-        } catch (err) {
-            console.log(err);
-            setError(`发生错误：${err.message}`);
-        }
     }
 
     async function fetchBalance() {
@@ -84,8 +86,8 @@ export default function Faucet() {
             const provider = new ethers.BrowserProvider(window.ethereum);
             const signer = await provider.getSigner();
             const faucetContract = new ethers.Contract(
-                FaucetAddress,
-                LLCFaucet.abi,
+                JUNFaucetAddress,
+                JUNFaucetAbi.abi,
                 signer
             );
             try {
@@ -125,7 +127,7 @@ export default function Faucet() {
                     {isConnected ? (
                         <>
                             <p className="text-4xl mt-12 mb-12 text-shadow-md animate-pulse">
-                                免费领取一定数量的 LuLuCoin 代币 <br/>
+                                免费领取一定数量的 JunCoin 代币 <br/>
                                 <br/>
                                 单次最多领取 {parseFloat(ethers.formatUnits(dripLimit, 18))}{" "}个代币,
                                 <span className="whitespace-nowrap">领取间隔时间为 {dripInterval} 秒</span>
@@ -181,7 +183,7 @@ export default function Faucet() {
                 <ConnectionInfo
                     chainId={chainId}
                     accounts={accounts}
-                    CoinAddress={JunCoinAddress}
+                    JunCoinAddress={JunCoinAddress}
                     balance={balance}
                     FaucetAddress={JUNFaucetAddress}
                     faucetBalance={faucetBalance}
